@@ -4,12 +4,12 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-@Entity(tableName = "user")
+@Entity
 data class User(
-    @PrimaryKey(autoGenerate = true) var id: Int,
-    @ColumnInfo var login: String,
-    @ColumnInfo var html_url: String,
-    @ColumnInfo var avatar_url: String,
+    @PrimaryKey(autoGenerate = true) var id: Int?=0,
+    @ColumnInfo var login: String?=null,
+    @ColumnInfo var html_url: String?=null,
+    @ColumnInfo var avatar_url: String?=null
     )
 
 

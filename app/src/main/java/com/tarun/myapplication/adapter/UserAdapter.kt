@@ -1,6 +1,7 @@
 package com.tarun.myapplication.adapter
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -37,6 +38,7 @@ class UserAdapter(
 
     override fun onBindViewHolder(holder: ItemVIewHolder, position: Int) {
         val user = getItem(position)
+        Log.e("TAG", "onBindViewHolder: $user", )
         if (user != null) {
             holder.gitHubLink.text = user.html_url
             holder.title.text = user.login

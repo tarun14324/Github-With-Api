@@ -3,11 +3,14 @@ package com.tarun.myapplication.activities
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelLazy
 import androidx.lifecycle.lifecycleScope
+import androidx.paging.map
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.tarun.myapplication.utiles.CheckNetworkConnection
 import com.tarun.myapplication.R
@@ -15,6 +18,8 @@ import com.tarun.myapplication.adapter.RoomAdapter
 import com.tarun.myapplication.adapter.UserAdapter
 import com.tarun.myapplication.databinding.ActivityMainBinding
 import com.tarun.myapplication.dataclass.Item
+import com.tarun.myapplication.room.AppDatabase
+import com.tarun.myapplication.room.User
 import com.tarun.myapplication.viewmodel.MainViewModel
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -31,6 +36,7 @@ class MainActivity : AppCompatActivity() {
     private val checkNetworkConnection by lazy { CheckNetworkConnection(application) }
 
     private var userAdapter = UserAdapter((::dbItemClicked))
+    private var RoomAdapter = RoomAdapter()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -61,10 +67,12 @@ class MainActivity : AppCompatActivity() {
                 }
             } else {
                 lifecycleScope.launch {
-                    viewModel.getDataBAseData().collectLatest { pagedData ->
-                        val adapter = RoomAdapter()
-                        adapter.submitData(pagedData)
+                    viewModel.getDataBAseData().collectLatest {
+                        RoomAdapter.submitData(lifecycle, it)
+                        mBinding.recyclerView.adapter = userAdapter
                     }
+
+
                 }
             }
         }
@@ -84,6 +92,7 @@ class MainActivity : AppCompatActivity() {
                 userAdapter.submitData(lifecycle, it)
                 mBinding.recyclerView.adapter = userAdapter
             }
+
         }
 
     }

@@ -11,6 +11,6 @@ interface Service {
     suspend fun getRepo(
         @Query("q") name: String,
         @Query("page") page: Int,
-        @Query("size") size: Int
-    ): Data
+        @Query("per_page") per_page: Int,
+        ): Data
 }

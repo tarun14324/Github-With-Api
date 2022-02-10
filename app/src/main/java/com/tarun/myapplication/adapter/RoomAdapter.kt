@@ -40,7 +40,7 @@ class RoomAdapter(
         Log.e("TAG", "onBindViewHolder: ${user!!.login}")
         holder.gitHubLink.text = user.html_url
         holder.title.text = user.login
-        holder.imageView.loadImage(user.avatar_url)
+        holder.imageView.loadImage(user.avatar_url!!.toString())
 //            holder.cv.setOnClickListener {
 //                onItemClicked(user)
 //            }

@@ -18,9 +18,8 @@ class UserDatBaseSource(private val database: AppDatabase) :
         val position = params.key ?: START_INDEX
         return try {
             val data = database.userDao().getAll()
-            Log.e("TAG", "load: ${data.isEmpty()}", )
             LoadResult.Page(
-                data = data,
+                data = data as List<User>,
                 prevKey = if (position == START_INDEX) null else position - 1,
                 nextKey = position.plus(1)
             )

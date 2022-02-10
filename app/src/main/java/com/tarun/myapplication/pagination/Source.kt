@@ -5,7 +5,6 @@ import androidx.paging.PagingState
 import com.tarun.myapplication.api.Service
 import com.tarun.myapplication.dataclass.Item
 import com.tarun.myapplication.room.AppDatabase
-import com.tarun.myapplication.room.UserBuilder
 import retrofit2.HttpException
 import java.io.IOException
 
@@ -21,14 +20,8 @@ class UserSource(private val apiService: Service, text: String, private val data
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Item> {
         val position = params.key ?: START_INDEX
         return try {
-            val data = apiService.getRepo(name, position, params.loadSize)
-            data.items.forEach {
-                val user = UserBuilder().build()
-                user.login = it.login
-                user.html_url = it.html_url
-                user.avatar_url = it.avatar_url
-                database.userDao().insertAll(user)
-            }
+            val data = apiService.getRepo(name, position,params.loadSize)
+            database.userDao().insertAll(data.items)
             LoadResult.Page(
                 data = data.items,
                 prevKey = if (position == START_INDEX) null else position - 1,

@@ -10,10 +10,10 @@ import com.tarun.myapplication.dataclass.Item
 @Dao
 interface UserDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertAll(users: User)
+    suspend fun insertAll(users: List<Item>)
 
-    @Query("SELECT * FROM user ORDER BY login DESC")
-    fun getAll(): List<User>
+    @Query("SELECT login,html_url,avatar_url FROM user ORDER BY id DESC")
+    fun getAll(): PagingSource<Int, User>
 
     @Query("DELETE FROM User")
     suspend fun clearAll()
