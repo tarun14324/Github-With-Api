@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">GitHUb Search App</string>
+    <string name="flow">Flow</string>
+    <string name="username">Username</string>
+    <string name="detail">Detail Activity</string>
+    <string name="gitHubLink">GithubLink</string>
+    <string name="github_profile_link">Github Profile Link</string>
+    <string name="search">Search User..</string>
+    <string name="webView">Web View Activity</string>
+</resources>
