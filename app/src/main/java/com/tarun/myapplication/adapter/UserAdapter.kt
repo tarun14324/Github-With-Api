@@ -42,7 +42,7 @@ class UserAdapter(
         if (user != null) {
             holder.gitHubLink.text = user.html_url
             holder.title.text = user.login
-           holder.imageView.loadImage(user.avatar_url)
+           holder.imageView.loadImage(user.avatar_url!!)
             holder.cv.setOnClickListener {
                 onItemClicked(user)
             }

@@ -6,7 +6,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.viewModelScope
 import androidx.paging.*
 import com.tarun.myapplication.dataclass.Item
-import com.tarun.myapplication.pagination.UserDatBaseSource
 import com.tarun.myapplication.reposiotry.Repository
 import com.tarun.myapplication.room.AppDatabase
 import com.tarun.myapplication.room.User
@@ -22,11 +21,11 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         return myRepository.getData(query)
     }
 
-    fun getDataBAseData(): Flow<PagingData<User>> {
-        return Pager(PagingConfig(pageSize =10)){
-            UserDatBaseSource(database)
-        }.flow.cachedIn(viewModelScope)
+//remote
+    fun RemoteData(query: String): Flow<PagingData<Item>> {
+        return myRepository.fetchPosts(query)
     }
+
 
 }
 

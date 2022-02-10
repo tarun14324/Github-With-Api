@@ -4,25 +4,25 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-@Entity(tableName = "user")
+@Entity(tableName ="user")
 data class Item(
-    @ColumnInfo val avatar_url: String,
-    @ColumnInfo val events_url: String,
-    @ColumnInfo val followers_url: String,
-    @ColumnInfo val following_url: String,
-    @ColumnInfo val gists_url: String,
-    @ColumnInfo val gravatar_id: String,
-    @ColumnInfo val html_url: String,
+    @ColumnInfo val avatar_url: String?=null,
+    @ColumnInfo val events_url: String?=null,
+    @ColumnInfo val followers_url: String?=null,
+    @ColumnInfo val following_url: String?=null,
+    @ColumnInfo val gists_url: String?=null,
+    @ColumnInfo val gravatar_id: String?=null,
+    @ColumnInfo val html_url: String?=null,
     @PrimaryKey(autoGenerate = true) var id: Int?=0,
-    @ColumnInfo val login: String,
-    @ColumnInfo val node_id: String,
-    @ColumnInfo val organizations_url: String,
-    @ColumnInfo val received_events_url: String,
-    @ColumnInfo val repos_url: String,
-    @ColumnInfo val score: Double,
-    @ColumnInfo val site_admin: Boolean,
-    @ColumnInfo val starred_url: String,
-    @ColumnInfo val subscriptions_url: String,
-    @ColumnInfo val type: String,
-    @ColumnInfo val url: String
+    @ColumnInfo val login: String?=null,
+    @ColumnInfo val node_id: String?=null,
+    @ColumnInfo val organizations_url: String?=null,
+    @ColumnInfo val received_events_url: String?=null,
+    @ColumnInfo val repos_url: String?=null,
+    @ColumnInfo val score: Double?=null,
+    @ColumnInfo val site_admin: Boolean?=null,
+    @ColumnInfo val starred_url: String?=null,
+    @ColumnInfo val subscriptions_url: String?=null,
+    @ColumnInfo val type: String?=null,
+    @ColumnInfo val url: String?=null
 )

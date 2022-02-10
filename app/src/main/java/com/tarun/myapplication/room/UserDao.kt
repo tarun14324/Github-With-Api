@@ -13,7 +13,7 @@ interface UserDao {
     suspend fun insertAll(users: List<Item>)
 
     @Query("SELECT login,html_url,avatar_url FROM user ORDER BY id DESC")
-    fun getAll(): PagingSource<Int, User>
+    fun getAll(): PagingSource<Int, Item>
 
     @Query("DELETE FROM User")
     suspend fun clearAll()

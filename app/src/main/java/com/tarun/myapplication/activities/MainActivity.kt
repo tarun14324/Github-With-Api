@@ -67,8 +67,8 @@ class MainActivity : AppCompatActivity() {
                 }
             } else {
                 lifecycleScope.launch {
-                    viewModel.getDataBAseData().collectLatest {
-                        RoomAdapter.submitData(lifecycle, it)
+                    viewModel.RemoteData("tarun").collectLatest {
+                        userAdapter.submitData(lifecycle, it)
                         mBinding.recyclerView.adapter = userAdapter
                     }
 
