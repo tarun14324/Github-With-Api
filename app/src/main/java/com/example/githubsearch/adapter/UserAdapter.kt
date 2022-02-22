@@ -1,7 +1,5 @@
-package com.tarun.myapplication.adapter
+package com.example.githubsearch.adapter
 
-import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,21 +9,19 @@ import androidx.cardview.widget.CardView
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.example.githubsearch.dataclass.Item
+import com.example.githubsearch.utilities.loadImage
 import com.tarun.myapplication.R
-import com.tarun.myapplication.dataclass.Item
-import com.tarun.myapplication.utiles.loadImage
 
 
-class UserAdapter(
-    private val onItemClicked: (Item) -> Unit
-) :
+class UserAdapter(private val onItemClicked: (Item) -> Unit) :
     PagingDataAdapter<Item, UserAdapter.ItemVIewHolder>(object : DiffUtil.ItemCallback<Item>() {
-
         override fun areItemsTheSame(oldItem: Item, newItem: Item): Boolean {
             return oldItem.id == newItem.id && oldItem.login == newItem.login && oldItem.avatar_url == newItem.avatar_url
+                    && oldItem.repos_url == newItem.repos_url
         }
 
-        override fun areContentsTheSame(oldItem: Item, newItem: Item ): Boolean {
+        override fun areContentsTheSame(oldItem: Item, newItem: Item): Boolean {
             return oldItem == newItem
         }
     }) {
@@ -37,12 +33,12 @@ class UserAdapter(
     }
 
     override fun onBindViewHolder(holder: ItemVIewHolder, position: Int) {
+
         val user = getItem(position)
-        Log.e("TAG", "onBindViewHolder: $user", )
         if (user != null) {
             holder.gitHubLink.text = user.html_url
             holder.title.text = user.login
-           holder.imageView.loadImage(user.avatar_url!!)
+            holder.imageView.loadImage(user.avatar_url!!)
             holder.cv.setOnClickListener {
                 onItemClicked(user)
             }
