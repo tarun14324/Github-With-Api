@@ -4,7 +4,16 @@
     <string name="username">Username</string>
     <string name="detail">Detail Activity</string>
     <string name="gitHubLink">GithubLink</string>
-    <string name="github_profile_link">Github Profile Link</string>
     <string name="search">Search User..</string>
     <string name="webView">Web View Activity</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="item">Item</string>
+    <string name="WebView">Web View</string>
+    <string name="enter">Search Here</string>
+    <string name="submit">Submit</string>
+    <string name="LoadUrl">Get Repo List</string>
+    <string name="repo_image">repo image</string>
+    <string name="terms_conditions"><![CDATA[Terms & Conditions]]></string>
+    <string name="settings">Settings</string>
+    <string name="offline">you are offline ! do you want to show offline data</string>
 </resources>
