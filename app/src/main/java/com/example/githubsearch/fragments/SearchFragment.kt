@@ -8,7 +8,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
-import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LifecycleOwner
@@ -17,7 +16,11 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.githubsearch.adapter.UserAdapter
 import com.example.githubsearch.dataclass.Item
-import com.example.githubsearch.utilities.*
+import com.example.githubsearch.utilities.BindingAdapterUtils.toast
+import com.example.githubsearch.utilities.BindingAdapterUtils.updateVisibility
+import com.example.githubsearch.utilities.ConnectivityStatus
+import com.example.githubsearch.utilities.TextTitle
+import com.example.githubsearch.utilities.hideKeyboard
 import com.example.githubsearch.viewModel.ModelFactory
 import com.example.githubsearch.viewModel.MyViewModel
 import com.tarun.myapplication.R
@@ -51,20 +54,27 @@ class SearchFragment : Fragment(), LifecycleOwner {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.recyclerView.adapter = adapter
+
         binding.swipeRefreshLayout.setOnRefreshListener {
             Handler(Looper.getMainLooper()).postDelayed({
                 binding.swipeRefreshLayout.isRefreshing = false
             }, 3000)
             adapter.refresh()
-        }
-        viewModel.itemsUpdated.observe(viewLifecycleOwner) {
-            adapter.notifyDataSetChanged()
-            adapter.submitData(lifecycle, it)
+
         }
         binding.input.setOnEditorActionListener { v, actionId, event ->
+            updateVisibility(binding.progressBar, true)
             return@setOnEditorActionListener when (actionId) {
                 EditorInfo.IME_ACTION_SEND -> {
                     v.hideKeyboard(requireContext())
+                    viewModel.userName.value = binding.input.text.toString()
+                    viewModel.itemsUpdated.observe(viewLifecycleOwner) {
+                        adapter.notifyDataSetChanged()
+                        adapter.submitData(lifecycle, it)
+                        Handler().postDelayed({
+                            updateVisibility(binding.progressBar, false)
+                        }, 2000)
+                    }
                     true
                 }
                 else -> false
@@ -89,9 +99,9 @@ class SearchFragment : Fragment(), LifecycleOwner {
         val myText: TextTitle = TextTitle.Builder()
             .Text(resources.getString(R.string.offline))
             .build()
-
-
-        requireContext().showToast(myText.text, Toast.LENGTH_SHORT)
+        toast(
+            requireView(), myText.text
+        )
         lifecycleScope.launch {
             viewModel.getAllRoomData(binding.input.text.toString()).collectLatest {
                 adapter.notifyDataSetChanged()

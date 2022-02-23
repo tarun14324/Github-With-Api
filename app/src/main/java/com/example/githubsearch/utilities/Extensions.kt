@@ -5,6 +5,7 @@ import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
 
 fun ImageView.loadImage(url: String) {
@@ -19,16 +20,25 @@ fun View.hideKeyboard(context: Context?) {
     inputMethodManager.hideSoftInputFromWindow(this.windowToken, 0)
 }
 
-fun Context.showToast(message: String, duration: Int) {
-    Toast.makeText(this, message, duration).show()
-}
+//fun Context.showToast(message: String, duration: Int) {
+//    Toast.makeText(this, message, duration).show()
+//}
 
-fun View.visibleOrInvisible(value: Boolean) {
-    visibility = if (value) {
-        View.VISIBLE
-    } else {
-        View.INVISIBLE
+
+object BindingAdapterUtils {
+    @JvmStatic
+    @BindingAdapter("app:updateVisibility")
+    fun updateVisibility(view: View, visible: Boolean) {
+        view.visibility = if (visible) View.VISIBLE else View.INVISIBLE
     }
+
+
+    @BindingAdapter("Toast")
+    fun toast(view: View, message: String) {
+        Toast.makeText(view.context, message, Toast.LENGTH_SHORT).show()
+    }
+
+
 }
 
 
