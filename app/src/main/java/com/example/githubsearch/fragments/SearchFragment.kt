@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -29,7 +30,7 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 
-//private val TAG by lazy { "SearchFragment" }
+private val TAG by lazy { "SearchFragment" }
 
 class SearchFragment : Fragment(), LifecycleOwner {
 
@@ -60,21 +61,21 @@ class SearchFragment : Fragment(), LifecycleOwner {
                 binding.swipeRefreshLayout.isRefreshing = false
             }, 3000)
             adapter.refresh()
-
+        }
+        viewModel.itemsUpdated.observe(viewLifecycleOwner) {
+            Log.e(TAG, "onViewCreated: $it")
+            adapter.notifyDataSetChanged()
+            adapter.submitData(lifecycle, it)
+            Handler().postDelayed({
+                updateVisibility(binding.progressBar, false)
+            }, 2000)
         }
         binding.input.setOnEditorActionListener { v, actionId, event ->
             updateVisibility(binding.progressBar, true)
             return@setOnEditorActionListener when (actionId) {
                 EditorInfo.IME_ACTION_SEND -> {
                     v.hideKeyboard(requireContext())
-                    viewModel.userName.value = binding.input.text.toString()
-                    viewModel.itemsUpdated.observe(viewLifecycleOwner) {
-                        adapter.notifyDataSetChanged()
-                        adapter.submitData(lifecycle, it)
-                        Handler().postDelayed({
-                            updateVisibility(binding.progressBar, false)
-                        }, 2000)
-                    }
+
                     true
                 }
                 else -> false
@@ -96,6 +97,7 @@ class SearchFragment : Fragment(), LifecycleOwner {
 
     @SuppressLint("NotifyDataSetChanged")
     private fun connectionLost() {
+        binding.recyclerView.adapter = adapter
         val myText: TextTitle = TextTitle.Builder()
             .Text(resources.getString(R.string.offline))
             .build()

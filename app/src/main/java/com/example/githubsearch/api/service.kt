@@ -14,7 +14,6 @@ interface Service {
     ): Data
 
 
-
     @GET("search/users")
     suspend fun getDataRepo(
         @Query("q") name: String,

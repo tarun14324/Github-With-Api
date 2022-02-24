@@ -1,5 +1,6 @@
 package com.example.githubsearch.pagination
 
+import android.util.Log
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.LoadType
 import androidx.paging.PagingState
@@ -37,6 +38,7 @@ class UserRemoteMediator(
 
         return try {
             val response = networkService.getRepo(name, page)
+            Log.e("TAG", "load: $response")
             val isEndOfList = response.items.isEmpty()
             database.withTransaction {
                 if (loadType == LoadType.REFRESH) {

@@ -24,7 +24,6 @@ fun View.hideKeyboard(context: Context?) {
 //    Toast.makeText(this, message, duration).show()
 //}
 
-
 object BindingAdapterUtils {
     @JvmStatic
     @BindingAdapter("app:updateVisibility")
@@ -32,13 +31,10 @@ object BindingAdapterUtils {
         view.visibility = if (visible) View.VISIBLE else View.INVISIBLE
     }
 
-
     @BindingAdapter("Toast")
     fun toast(view: View, message: String) {
         Toast.makeText(view.context, message, Toast.LENGTH_SHORT).show()
     }
-
-
 }
 
 

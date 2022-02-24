@@ -9,12 +9,10 @@ import androidx.paging.cachedIn
 import com.example.githubsearch.dataclass.Item
 import com.example.githubsearch.repository.Repository
 import com.example.githubsearch.room.AppDatabase
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
 
@@ -32,7 +30,7 @@ class MyViewModel constructor(app: Application) :
     @FlowPreview
     val items by lazy {
         userName.flatMapLatest {
-            repo.fetchPosts(it).cachedIn(viewModelScope)
+            repo.fetchPosts(it).cachedIn(viewModelScope).flowOn(Dispatchers.Main)
         }
 
     }
@@ -41,7 +39,7 @@ class MyViewModel constructor(app: Application) :
 
 
     init {
-        isLoading.value=true
+        isLoading.value = true
         viewModelScope.launch {
             items.collectLatest {
                 itemsUpdated.postValue(it)
@@ -51,7 +49,7 @@ class MyViewModel constructor(app: Application) :
     }
 
     fun getAllRoomData(name: String): Flow<PagingData<Item>> {
-        return repo.getAllData(name)
+        return repo.getAllData(name).flowOn(Dispatchers.Main)
     }
 
 
